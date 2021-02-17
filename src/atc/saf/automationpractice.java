@@ -147,7 +147,7 @@ public class automationpractice {
 		driver.findElement(By.id("cgv")).click();		
 		driver.findElement(By.xpath("//form[@id='form']/p/button/span")).click();
 		Thread.sleep(2000);
-		driver.findElement(By.xpath("//a[@class='bankwire']")).click();	s	
+		driver.findElement(By.xpath("//a[@class='bankwire']")).click();
 		driver.findElement(By.xpath("//span[text()='I confirm my order']")).click();
 		
 		// 14. Move to your profile and check 'order history and details'
