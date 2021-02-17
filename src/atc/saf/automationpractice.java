@@ -1,11 +1,15 @@
 package atc.saf;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +24,7 @@ public class automationpractice {
 	
 	public static WebDriver driver = null;
 
-	public static void main(String[] args) throws InterruptedException, IOException {
+	public static void main(String[] args) throws InterruptedException, IOException, AWTException {
 		System.setProperty("webdriver.chrome.driver", ".\\drivers\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -77,56 +81,61 @@ public class automationpractice {
 		// 4. Click on 'Save'
 		driver.findElement(By.xpath("//button[@id='submitAddress']/span")).click();	
 		
-		// 5. Navigate to 'Women' --> Summer dresses
-		WebElement we = driver.findElement(By.linkText("Women"));
-		Actions action = new Actions(driver);		
-		action.moveToElement(we).build().perform();
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("window.scrollBy(0,-250)");
 		
-		Thread.sleep(20000);
+		// 5. Navigate to 'Women' --> Summer dresses
+		WebElement we = driver.findElement(By.xpath("//div[@id='block_top_menu']/ul/li/a"));
+		Actions action = new Actions(driver);		
+		action.moveToElement(we).build().perform();		
 		
 		driver.findElement(By.xpath("//a[text()='Summer Dresses']")).click();	
 		
 		// 6. The Items would be in 'Grid view'. Change it to 'List View'.
-		driver.findElement(By.xpath("//li[@id='list']/a/i")).click();	
+		driver.findElement(By.xpath("//li[@id='list']/a/i")).click();
 		
+		String home = driver.getCurrentUrl();
 		
 		// 7. Click on the first item to view.
-		driver.findElement(By.xpath("(//img[@alt='Printed Summer Dress'])[2]")).click();			
+		driver.findElement(By.xpath("(//div[2]/h5/a)[1]")).click();			
 		// 8. Increase the quantity to 5
 		for (int i=0; i<4; i++) {
-			driver.findElement(By.xpath("//p[@id='quantity_wanted_p']/a[2]/span/i")).click();
-			
+			driver.findElement(By.xpath("//p[@id='quantity_wanted_p']/a[2]/span/i")).click();	
 		}		
 		// 9. Change the size to 'L'
 		Select size = new Select(driver.findElement(By.id("group_1")));
 		size.selectByVisibleText("L");		
-		// 10. Select any colour
+		// 10. Select any color
 		driver.findElement(By.id("color_11")).click();		
 		// 11. Add to cart
-		driver.findElement(By.id("//span[text()='Add to cart']")).click();		
+		driver.findElement(By.xpath("//span[text()='Add to cart']")).click();
 		
+		Thread.sleep(10000);
 		
 		// 12. Click 'Continue shopping' and repeat the same for the other 2 items as well under the summer dresses.
 		driver.findElement(By.xpath("//div[@id='layer_cart']/div/div[2]/div[4]/span/span")).click();
-		driver.navigate().back();
-		driver.findElement(By.xpath("(//img[@alt='Printed Summer Dress'])[3]")).click();		
+		driver.get(home);
+		driver.findElement(By.xpath("(//div[2]/h5/a)[2]")).click();		
 		for (int i=0; i<4; i++) {
 			driver.findElement(By.xpath("//p[@id='quantity_wanted_p']/a[2]/span/i")).click();
-		}		
+		}
+		size = new Select(driver.findElement(By.id("group_1")));
 		size.selectByVisibleText("L");		
 		driver.findElement(By.id("color_8")).click();		
-		driver.findElement(By.id("//span[text()='Add to cart']")).click();	
+		driver.findElement(By.xpath("//span[text()='Add to cart']")).click();	
 		
+		Thread.sleep(10000);		
 		
 		driver.findElement(By.xpath("//div[@id='layer_cart']/div/div[2]/div[4]/span/span")).click();
-		driver.navigate().back();
-		driver.findElement(By.xpath("//img[@alt='Printed Chiffon Dress']")).click();		
+		driver.get(home);
+		driver.findElement(By.xpath("(//div[2]/h5/a)[3]")).click();		
 		for (int i=0; i<4; i++) {
 			driver.findElement(By.xpath("//p[@id='quantity_wanted_p']/a[2]/span/i")).click();			
-		}		
+		}
+		size = new Select(driver.findElement(By.id("group_1")));
 		size.selectByVisibleText("L");		
 		driver.findElement(By.id("color_15")).click();		
-		driver.findElement(By.id("//span[text()='Add to cart']")).click();	
+		driver.findElement(By.xpath("//span[text()='Add to cart']")).click();	
 		
 		// 13. Proceed to checkout and complete the payment
 		driver.findElement(By.xpath("//div[@id='layer_cart']/div/div[2]/div[4]/a/span")).click();
@@ -138,9 +147,8 @@ public class automationpractice {
 		driver.findElement(By.id("cgv")).click();		
 		driver.findElement(By.xpath("//form[@id='form']/p/button/span")).click();
 		Thread.sleep(2000);
-		driver.findElement(By.linkText("\"Pay by bank wire (order processing will be longer)\"")).click();
-		
-		driver.findElement(By.linkText("//span[text()='I confirm my order']")).click();
+		driver.findElement(By.xpath("//a[@class='bankwire']")).click();	s	
+		driver.findElement(By.xpath("//span[text()='I confirm my order']")).click();
 		
 		// 14. Move to your profile and check 'order history and details'
 		driver.findElement(By.xpath("//header[@id='header']/div[2]/div/div/nav/div/a/span")).click();
@@ -157,5 +165,4 @@ public class automationpractice {
 		driver.close();
 		driver.quit();
 	}
-
 }
