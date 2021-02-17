@@ -75,7 +75,11 @@ public class automationpractice {
 		// 5. Navigate to 'Women' --> Summer dresses
 		WebElement we = driver.findElement(By.linkText("Women"));
 		Actions action = new Actions(driver);		
-		action.moveToElement(we).moveToElement(driver.findElement(By.xpath("//a[text()='Summer Dresses']"))).click().build().perform();
+		action.moveToElement(we).build().perform();
+		
+		Thread.sleep(20000);
+		
+		driver.findElement(By.xpath("//a[text()='Summer Dresses']")).click();	
 			
 		// Close the web driver		
 		driver.close();
