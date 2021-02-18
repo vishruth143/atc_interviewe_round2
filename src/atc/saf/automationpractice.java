@@ -154,7 +154,11 @@ public class automationpractice {
 		driver.findElement(By.xpath("//header[@id='header']/div[2]/div/div/nav/div/a/span")).click();
 		driver.findElement(By.xpath("//span[text()='Order history and details']")).click();			
 		
-		// 15. Capture screenshot of the order history		
+		// 15. Capture screenshot of the order history
+		File theDir = new File(".\\output");
+		if (!theDir.exists()) {	
+			theDir.mkdirs();
+		}
 		File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(screenshotFile , new File(".\\output\\screenshot.png"));
 		
