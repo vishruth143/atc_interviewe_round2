@@ -156,7 +156,7 @@ public class automationpractice {
 		
 		// 15. Capture screenshot of the order history
 		File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(screenshotFile , new File(".\\screenshot.png"));
+		FileUtils.copyFile(screenshotFile , new File(".\\output\\screenshot.png"));
 		
 		// 16. Sign out from the application
 		driver.findElement(By.linkText("Sign out")).click();
